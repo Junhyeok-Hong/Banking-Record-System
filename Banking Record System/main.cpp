@@ -65,6 +65,7 @@ void account_query::delete_rec()
 
 int main()
 {
+    std::cout << "Hello world\n";
     return 0;
 }
 
