@@ -19,9 +19,7 @@ This works in similar manner to the Search feature. When the function for Edit R
 - Delete Record:
 First of all, when the function of this feature is executed, it shows all the records in the file, and the user can enter the record number to delete. If the record was not found, this banking record system project in C++ displays the message – “Error in opening! File Not Found!!”
 
-# Extended Features
+# Objectives
 
-
-
-# Usage
-
+- File Handling
+- File as Database 
