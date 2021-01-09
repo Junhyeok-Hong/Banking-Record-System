@@ -13,9 +13,6 @@ With the information provided in add record, the void show_data() function in th
 - Search Record:
 When the function for this feature is first executed, it shows the total records in the file, and the user can then search by record number. If the record searched for is not found, the banking record system project in C++ displays the message – “Error in opening! File Not Found!!”
 
-- Edit Record:
-This works in similar manner to the Search feature. When the function for Edit Record is first executed, it shows the total records in the file, and the user can edit the information by providing record number. Then, the C++ project shows all the data in that record, and the user can enter any data to modify. If the record to be edited for is not found, it displays the message – “Error in opening! File Not Found!!”
-
 - Delete Record:
 First of all, when the function of this feature is executed, it shows all the records in the file, and the user can enter the record number to delete. If the record was not found, this banking record system project in C++ displays the message – “Error in opening! File Not Found!!”
 
@@ -23,3 +20,8 @@ First of all, when the function of this feature is executed, it shows all the re
 
 - File Handling
 - File as Database 
+
+# Notes
+
+- This new implementation does not use binary files like the source code from 'code with c'. Thus, the database file is organized in a way that is readable to humans. With the database created in such a way, the file can be transferred, read and manipulated more easily.
+- This project was completed using Xcode

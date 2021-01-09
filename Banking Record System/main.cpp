@@ -5,14 +5,7 @@
 //  Created by Michael Hong on 2021-01-08.
 //
 
-//
-//  main.cpp
-//  Banking Record System
-//
-//  Created by Michael Hong on 2021-01-08.
-//
-
-#include<iostream>
+#include <iostream>
 #include <fstream>
 
 using std::string;
@@ -27,30 +20,21 @@ private:
     string last_name;
     float balance;
 public:
-    void read_data();
-    void show_data();
     void write_rec();
     void read_rec();
-    void search_rec();
-    void edit_rec();
+    int search_rec();
     void delete_rec();
 };
-
-void account_query::read_data()
-{
-
-}
-
-void account_query::show_data()
-{
-
-}
 
 void account_query::write_rec()
 {
     std::ofstream file("database.txt", std::ios::out|std::ios::app);
-    if(!file) cout << "Cannot open file" << endl;
-    
+    if(!file)
+    {
+        cout << "Cannot open file" << endl;
+        return;
+    }
+    cout << "===Add New Data===" << endl;
     cout << "Enter first name: ";
     cin >> first_name;
     file << first_name;
@@ -61,45 +45,104 @@ void account_query::write_rec()
     cin >> balance;
     file << balance;
     file << '\n';
-    cout << endl;
     
     file.close();
 }
 
 void account_query::read_rec()
 {
-    cout << "read rec" << endl;
+    std::ifstream file("database.txt");
+    if(!file)
+    {
+        cout << "Cannot open file" << endl;
+        return;
+    }
+    cout << "===Showing Database===" << endl;
+    string data;
+    while (getline (file, data))
+    {
+        cout << data << endl;
+    }
+    file.close();
 }
 
-void account_query::search_rec()
+int account_query::search_rec()
 {
-    cout << "search rec" << endl;
-}
-
-void account_query::edit_rec()
-{
-    cout << "edit rec" << endl;
+    cout << "Enter first name: ";
+    cin >> first_name;
+    cout << "Enter last name: ";
+    cin >> last_name;
+    
+    std::ifstream file("database.txt");
+    if(!file)
+    {
+        cout << "Cannot open file" << endl;
+        return 0;
+    }
+    cout << "===Searching Database===" << endl;
+    string data;
+    while (getline (file, data))
+    {
+        if (data.find(first_name) != std::string::npos && data.find(last_name) != std::string::npos)
+        {
+            cout << data << endl;
+            return 1;
+        }
+    }
+    file.close();
+    return 0;
 }
 
 void account_query::delete_rec()
 {
-    cout << "delete rec" << endl;
+    if (search_rec())
+    {
+        cout << "Deleting From Database..." << endl;
+        std::ofstream tempfile("temp.txt", std::ios::out|std::ios::app);
+        std::ifstream file("database.txt");
+        if(!file)
+        {
+            cout << "Cannot open file" << endl;
+        }
+        string data;
+        while (getline (file, data))
+        {
+            if (data.find(this->first_name) != std::string::npos && data.find(this->last_name) != std::string::npos)
+            {
+                continue;
+            }
+            else
+            {
+                tempfile << data;
+                tempfile << '\n';
+            }
+        }
+        file.close();
+        tempfile.close();
+        remove("database.txt");
+        rename("temp.txt", "database.txt");
+    }
+    else
+    {
+        cout << "Cannot Find Name!" << endl;
+        return;
+    }
 }
 
 int main()
 {
-    cout << "===Banking Record System===" << endl;
+    cout << "=====Banking Record System=====" << endl;
     account_query query;
     int choice;
     
     while(1)
     {
+        cout << "===Commands===" << endl;
         cout << "\t1-->Add record to file" << endl;
         cout << "\t2-->Show record from file" << endl;
         cout << "\t3-->Search Record from file" << endl;
-        cout << "\t4-->Update Record" << endl;
-        cout << "\t5-->Delete Record" << endl;
-        cout << "\t6-->Quit" << endl;
+        cout << "\t4-->Delete Record" << endl;
+        cout << "\t5-->Quit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
         switch(choice)
@@ -114,16 +157,13 @@ int main()
                 query.search_rec();
                 break;
             case 4:
-                query.edit_rec();
-                break;
-            case 5:
                 query.delete_rec();
                 break;
-            case 6:
+            case 5:
                 exit(0);
                 break;
             default:
-                cout<<"\nERROR: Choice MUST be between 1...6";
+                cout<<"\nERROR: Choice MUST be between 1...5";
                 exit(0);
         }
     }
